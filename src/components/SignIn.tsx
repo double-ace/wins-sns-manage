@@ -33,7 +33,7 @@ export const SignIn = () => {
 
     try {
       const token = await axios.post(
-        "http://localhost:8000/api/v1/auth/jwt/create",
+        "http://54.150.42.247/api/v1/auth/jwt/create",
         {
           email: email,
           password: password,
