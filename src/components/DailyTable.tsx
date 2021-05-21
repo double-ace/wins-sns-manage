@@ -108,7 +108,7 @@ export const DailyTable = () => {
         <th className="font-light border px-4 py-2">{item.email}</th>
         <th className="font-light border px-4 py-2 text-right">{item.point}<button className="ml-4" value={item.email} onClick={handleModal}><img src="pencil.svg" width={20} height={20}/></button></th>
         <th className="font-light border px-4 py-2">{item.last_visit && `${new Date(item.last_visit).getHours()}：${changeTwoDigit(item.last_visit)}`}</th>
-        <th className="font-light border px-4 py-2">{item.last_visit && `${new Date(item.last_visit).getFullYear()}-${new Date(item.last_visit).getMonth()+1}-${new Date(item.last_visit).getDate()}`}</th>
+        <th className="font-light border px-4 py-2">{item.previous_visit && `${new Date(item.previous_visit).getFullYear()}-${new Date(item.previous_visit).getMonth()+1}-${new Date(item.previous_visit).getDate()}`}</th>
       </tr>
     )
   })
