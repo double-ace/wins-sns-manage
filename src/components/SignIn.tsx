@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { LayoutLogin } from "./LayoutLogin";
 import { Alert } from "./Alert";
-import dynamic from 'next/dynamic';
 
 export const SignIn = () => {
   useEffect(() => {
@@ -14,7 +13,6 @@ export const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState({ err: false, text: "" }); // アラートオブジェクト
-  const [openQrReader, setOpenQrReader] = useState(false);
 
   const emailChange = (event) => {
     setEmail(event.target.value);
@@ -53,18 +51,8 @@ export const SignIn = () => {
     }
   };
 
-  const QrReader = dynamic(
-    () => import('./QrRead'), {ssr: false}
-  )
-
-  const openCamera = () => {
-    setOpenQrReader(!openQrReader);
-  }
-
   return (
     <LayoutLogin>
-      <button onClick={openCamera} className="border">QRコード読取</button>
-      {openQrReader && <QrReader isOpened={openQrReader} setIsOpened={setOpenQrReader} />}
       <div
         className="flex flex-col justify-center items-center h-3/4 lg:h-2/3 p-4 divide-y divide-gray-200"
         style={{ height: "40rem" }}
