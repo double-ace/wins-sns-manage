@@ -34,6 +34,7 @@ export const CustomerTable = () => {
   }, [showModal])
 
   const handleModal = (e) => { // ポイント編集モーダル表示
+    e.preventDefault();
     setTargetEmail(e.currentTarget.value)
     users.forEach(item => {
       if(e.currentTarget.value === item.email) {
@@ -48,15 +49,18 @@ export const CustomerTable = () => {
   }
 
 
-  const handleInc = () => {
+  const handleInc = (e) => {
+    e.preventDefault();
     setTargetPoint(Number(targetPoint) + 100)
   }
 
-  const handleDec = () => {
+  const handleDec = (e) => {
+    e.preventDefault();
     setTargetPoint(targetPoint - 100)
   }
 
-  const handlePoint = async () => { // ポイント確定
+  const handlePoint = async (e) => { // ポイント確定
+    e.preventDefault();
     await axios.put(
       `http://54.150.42.247/api/v1/manage/point-change/${targetInfoId}/`,
       {
@@ -70,8 +74,21 @@ export const CustomerTable = () => {
     setShowModal(false)
   }
 
-  const closeModal = () => {
+  const closeModal = (e) => {
+    e.preventDefault();
     setShowModal(false);
+  }
+
+  const handleVisit = async (e) => {
+    e.preventDefault();
+    await axios.patch(
+      `http://54.150.42.247/api/v1/manage/visit/${targetInfoId}/`,
+      {},
+      {
+        headers: { Authorization: `JWT ${localStorage.getItem("access")}` },
+      }
+    )
+    setShowModal(false)
   }
 
   const PointChangeModal = ({name, point}) => {
@@ -81,6 +98,7 @@ export const CustomerTable = () => {
       </div>
       <div className="bg-white border rounded-md py-6 px-12 text-center shadow-2xl bg-gray-100 z-100" style={{position: 'fixed', top: '50%', left: '40%'}}>
         <p className="font-bold text-2xl text-gray-700 mb-6">ポイント変更</p>
+        <button className="inline-block bg-pink-600 text-white rounded-md px-4" onClick={handleVisit}>来店</button>
         <p>{name}</p>
         <div className="mt-6">
           <p className="text-left pl-2 text-gray-500">{beforePoint}</p>
@@ -97,6 +115,8 @@ export const CustomerTable = () => {
 
 
   const tableItem = users.map(item => {
+    console.log("test")
+    console.log(item)
     return (
       <tr key={item.email}>
         <th className="font-light border px-4 py-2">{item.last_name} {item.first_name}</th>
@@ -106,6 +126,7 @@ export const CustomerTable = () => {
         <th className="font-light border px-4 py-2">{item.previous_visit && `${new Date(item.previous_visit).getFullYear()}-${new Date(item.previous_visit).getMonth()+1}-${new Date(item.previous_visit).getDate()}`}</th>
         <th className="font-light border px-4 py-2">{item.last_visit && `${new Date(item.last_visit).getFullYear()}-${new Date(item.last_visit).getMonth()+1}-${new Date(item.last_visit).getDate()}`}</th>
         <th className="font-light border px-4 py-2 text-right">{item.visit_count}</th>
+        <th className="font-light border px-4 py-2 text-right">{item.continuous_visit_count}</th>
         <th className="font-light border px-4 py-2">{item.phone_number}</th>
         <th className="font-light border px-4 py-2">{item.birth_date}</th>
         <th className="font-light border px-4 py-2">{item.address_prefecture}</th>
@@ -130,6 +151,7 @@ export const CustomerTable = () => {
             <th className="px-r py-2">前回来店日</th>
             <th className="px-4 py-2">最終来店日</th>
             <th className="px-4 py-2">来店回数</th>
+            <th className="px-4 py-2">連続来店回数</th>
             <th className="px-4 py-2">電話番号</th>
             <th className="px-4 py-2">誕生日</th>
             <th className="px-4 py-2">お住まい（都道府県）</th>
