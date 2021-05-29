@@ -1,10 +1,17 @@
 import QrReader from "react-qr-reader";
+import axios from 'axios'
 
 const QrRead = ({isOpened, setIsOpened}) => {
 
-  const onScan = (data: String) => {
+  const onScan = async (data: String) => {
     if (data) {
-      alert(data);
+      await axios.patch(
+        `https://api.mahjong-wins.com/api/v1/manage/visit/${data}/`,
+        {},
+        {
+          headers: { Authorization: `JWT ${localStorage.getItem("access")}` },
+        }
+      )
       setIsOpened(!isOpened)
     }
   }

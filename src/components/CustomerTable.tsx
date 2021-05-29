@@ -48,7 +48,6 @@ export const CustomerTable = () => {
     setShowModal(true)
   }
 
-
   const handleInc = (e) => {
     e.preventDefault();
     setTargetPoint(Number(targetPoint) + 100)
@@ -79,7 +78,7 @@ export const CustomerTable = () => {
     setShowModal(false);
   }
 
-  const handleVisit = async (e) => {
+/*   const handleVisit = async (e) => {
     e.preventDefault();
     await axios.patch(
       `https://api.mahjong-wins.com/api/v1/manage/visit/${targetInfoId}/`,
@@ -89,7 +88,7 @@ export const CustomerTable = () => {
       }
     )
     setShowModal(false)
-  }
+  } */
 
   const PointChangeModal = ({name, point}) => {
     return (
@@ -98,7 +97,7 @@ export const CustomerTable = () => {
       </div>
       <div className="bg-white border rounded-md py-6 px-12 text-center shadow-2xl bg-gray-100 z-100" style={{position: 'fixed', top: '50%', left: '40%'}}>
         <p className="font-bold text-2xl text-gray-700 mb-6">ポイント変更</p>
-        <button className="inline-block bg-pink-600 text-white rounded-md px-4" onClick={handleVisit}>来店</button>
+        {/* <button className="inline-block bg-pink-600 text-white rounded-md px-4" onClick={handleVisit}>来店</button> */}
         <p>{name}</p>
         <div className="mt-6">
           <p className="text-left pl-2 text-gray-500">{beforePoint}</p>
