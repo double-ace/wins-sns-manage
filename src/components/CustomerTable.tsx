@@ -15,7 +15,7 @@ export const CustomerTable = () => {
     const getUsers = async () => {
       try {
         await axios.get(
-          'http://54.150.42.247/api/v1/manage/users/',
+          'https://api.mahjong-wins.com/api/v1/manage/users/',
           {
             headers: { Authorization: `JWT ${localStorage.getItem("access")}` },
           }
@@ -62,7 +62,7 @@ export const CustomerTable = () => {
   const handlePoint = async (e) => { // ポイント確定
     e.preventDefault();
     await axios.put(
-      `http://54.150.42.247/api/v1/manage/point-change/${targetInfoId}/`,
+      `https://api.mahjong-wins.com/${targetInfoId}/`,
       {
         email: targetEmail,
         point: targetPoint
@@ -82,7 +82,7 @@ export const CustomerTable = () => {
   const handleVisit = async (e) => {
     e.preventDefault();
     await axios.patch(
-      `http://54.150.42.247/api/v1/manage/visit/${targetInfoId}/`,
+      `https://api.mahjong-wins.com/api/v1/manage/visit/${targetInfoId}/`,
       {},
       {
         headers: { Authorization: `JWT ${localStorage.getItem("access")}` },

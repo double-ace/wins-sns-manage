@@ -14,7 +14,7 @@ export const DailyTable = () => {
   useEffect(() => {
     const getUsers = async () => {
       const res = await axios.get(
-        'http://54.150.42.247/api/v1/manage/users/',
+        'https://api.mahjong-wins.com/api/v1/manage/users/',
         {
           headers: { Authorization: `JWT ${localStorage.getItem("access")}` },
         }
@@ -54,7 +54,7 @@ export const DailyTable = () => {
 
   const handlePoint = async () => { // ポイント確定
     await axios.put(
-      `http://54.150.42.247/api/v1/manage/point-change/${targetInfoId}/`,
+      `https://api.mahjong-wins.com/api/v1/manage/point-change/${targetInfoId}/`,
       {
         email: targetEmail,
         point: targetPoint

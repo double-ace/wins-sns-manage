@@ -31,7 +31,7 @@ export const SignIn = () => {
 
     try {
       const token = await axios.post(
-        "http://54.150.42.247/api/v1/auth/jwt/create",
+        "https://api.mahjong-wins.com/api/v1/auth/jwt/create",
         {
           email: email,
           password: password,
