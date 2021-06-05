@@ -1,5 +1,3 @@
-
-
 export const Header = ({ children }) => {
   return (
     <header className="w-full h-14 bg-green-400 px-4">

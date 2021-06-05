@@ -1,13 +1,6 @@
-import { useEffect } from "react";
 import { Header } from "./Header";
 
 export const Layout = ({ children }) => {
-  // useEffect(() => {
-  //   if (!localStorage.getItem('access')) {
-  //     window.location.href = '/';
-  //   }
-  // })
-
   const logout = (event) => {
     event.preventDefault();
     localStorage.removeItem("access");
@@ -28,5 +21,3 @@ export const Layout = ({ children }) => {
     </div>
   );
 };
-
-
