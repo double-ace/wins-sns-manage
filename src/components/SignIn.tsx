@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { LayoutLogin } from "./LayoutLogin";
 import { Alert } from "./Alert";
+import { authLogin } from "src/utils/requestAuth";
 
 export const SignIn = () => {
   useEffect(() => {
@@ -30,17 +30,10 @@ export const SignIn = () => {
     }
 
     try {
-      const token = await axios.post(
-        "https://api.mahjong-wins.com/api/v1/auth/jwt/create",
-        {
-          email: email,
-          password: password,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      localStorage.setItem("access", token.data.access);
+      const token = await authLogin({
+        email: email,
+        password: password,
+      });
       window.location.href = "/";
     } catch {
       setAlert({
