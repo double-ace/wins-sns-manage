@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Button } from "@mantine/core";
 import { LayoutLogin } from "./LayoutLogin";
 import { Alert } from "./Alert";
 import { authLogin } from "src/utils/requestAuth";
@@ -52,35 +53,37 @@ export const SignIn = () => {
       >
         {alert.err && <Alert text={alert.text} />}
         <form className="block px-8 md:px-0">
-          <h1 className="font-medium text-3xl mb-6 md:mb-12 text-center tracking-widest">
+          <h1 className="font-medium text-3xl mb-6 md:mb-12 text-cyan-700 text-center tracking-widest">
             ログイン
           </h1>
           <div className="my-7 text-md">
-            <label>メールアドレス</label>
+            <label className="text-cyan-800">メールアドレス</label>
             <input
               type="text"
               value={email}
               onChange={emailChange}
-              className="rounded-sm px-4 py-2 mt-3 bg-gray-100 w-full border border-gray-300"
+              className="rounded-sm px-4 py-2 mt-3 bg-gray-100 w-full"
               placeholder="Email"
             />
           </div>
           <div className="my-7 text-md">
-            <label>パスワード</label>
+            <label className="text-cyan-800">パスワード</label>
             <input
               type="password"
               value={password}
               onChange={pwChange}
-              className="rounded-sm px-4 py-2 mt-3 bg-gray-100 w-full border border-gray-300"
+              className="rounded-sm px-4 py-2 mt-3 bg-gray-100 w-full"
               placeholder="Password"
             />
           </div>
-          <button
+          <Button
+            radius="xl"
+            size="lg"
             onClick={login}
-            className="block bg-green-700 text-white mt-9 p-3 duration-300 rounded-sm hover:bg-green-600 w-full"
+            className="w-full mt-6 bg-cyan-700 hover:bg-cyan-600 duration-300"
           >
             ログイン
-          </button>
+          </Button>
         </form>
       </div>
     </LayoutLogin>
