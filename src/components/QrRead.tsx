@@ -1,16 +1,10 @@
 import QrReader from "react-qr-reader";
-import axios from "axios";
+import { requestHttpPatch } from "src/utils/requestBase";
 
 const QrRead = ({ isOpened, setIsOpened }) => {
   const onScan = async (data: String) => {
     if (data) {
-      await axios.patch(
-        `https://api.mahjong-wins.com/api/v1/manage/visit/${data}/`,
-        {},
-        {
-          headers: { Authorization: `JWT ${localStorage.getItem("access")}` },
-        }
-      );
+      await requestHttpPatch(`/owner/visit/${data}/`, {});
       setIsOpened(!isOpened);
     }
   };
@@ -24,19 +18,16 @@ const QrRead = ({ isOpened, setIsOpened }) => {
   };
 
   return (
-    <div
-      className="fixed z-100 top-0 left-0 w-2/3"
-      style={{ width: "40%", left: "30%" }}
-    >
+    <div className="fixed z-100 inset-0 w-full p-24">
       <QrReader
         delay={300}
         onScan={onScan}
         onError={onError}
-        className="w-full"
+        className="w-full max-w-xl mx-auto"
       />
-      <div className="px-10">
+      <div className="w-full max-w-xl mx-auto">
         <button
-          className="bg-indigo-600 text-white p-2 mt-10 duration-300 rounded-md hover:bg-indigo-500 text-md w-full"
+          className="bg-indigo-900 text-white p-2 mt-10 duration-300 rounded-md hover:bg-indigo-600 text-md mx-auto w-full"
           onClick={closeCamera}
         >
           閉じる
