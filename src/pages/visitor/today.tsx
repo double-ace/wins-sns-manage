@@ -40,6 +40,7 @@ export default function Today() {
         </div>
         <VisitorTable
           visitorList={visitorList}
+          setVisitorList={setVisitorList}
           isLoading={isLoading}
           type="today"
         />

@@ -55,6 +55,7 @@ export default function History() {
         </div>
         <VisitorTable
           visitorList={visitorList}
+          setVisitorList={setVisitorList}
           isLoading={isLoading}
           type="history"
         />

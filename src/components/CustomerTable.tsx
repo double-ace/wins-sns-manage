@@ -1,53 +1,20 @@
-import { useState, useEffect } from "react";
-import { Table, Modal, Button, LoadingOverlay } from "@mantine/core";
-import { requestHttpPatch } from "src/utils/requestBase";
+import { useState } from "react";
+import { Table, LoadingOverlay } from "@mantine/core";
 import dayjs from "dayjs";
+import { PointChangeModal } from "src/components/PointChangeModal";
 
-export const CustomerTable = ({ userList, isLoading }) => {
+export const CustomerTable = ({ userList, setUserList, isLoading }) => {
   const [showModal, setShowModal] = useState(false);
-  const [targetEmail, setTargetEmail] = useState("");
-  const [targetInfoId, setTargetInfoId] = useState("");
-  const [targetUser, setTargetUser] = useState("");
-  const [targetPoint, setTargetPoint] = useState(0);
+  const [targetUser, setTargetUser] = useState({});
 
-  const handleModal = (e) => {
+  const handleModal = (e, item) => {
     // ポイント編集モーダル表示
     e.preventDefault();
-    setTargetEmail(e.currentTarget.value);
-    userList.forEach((item) => {
-      if (e.currentTarget.value === item.email) {
-        setTargetUser(`${item.family_name} ${item.first_name}`);
-        setTargetInfoId(item.info_id);
-        setTargetPoint(item.point);
-        console.log(typeof item.point);
-      }
-    });
+    setTargetUser(item);
     setShowModal(true);
   };
 
-  const handleInc = (e) => {
-    e.preventDefault();
-    setTargetPoint(Number(targetPoint) + 100);
-  };
-
-  const handleDec = (e) => {
-    e.preventDefault();
-    setTargetPoint(targetPoint - 100);
-  };
-
-  const handlePoint = async (e) => {
-    // ポイント確定
-    e.preventDefault();
-    await requestHttpPatch(`/owner/point-change/${targetInfoId}/`, {
-      email: targetEmail,
-      point: targetPoint,
-    });
-
-    setShowModal(false);
-  };
-
   const tableItem = userList.map((item) => {
-    console.log(item);
     const {
       id,
       email,
@@ -68,12 +35,16 @@ export const CustomerTable = ({ userList, isLoading }) => {
       last_visit,
     } = item;
     return (
-      <tr key={email}>
+      <tr key={id}>
         <td>{`${family_name} ${first_name}`}</td>
         <td>{email}</td>
         <td className="text-right">
           {point || 0}
-          <button className="ml-4" value={email} onClick={handleModal}>
+          <button
+            className="ml-4"
+            value={email}
+            onClick={(e) => handleModal(e, item)}
+          >
             <img src="pencil.svg" width={16} height={16} />
           </button>
         </td>
@@ -97,53 +68,14 @@ export const CustomerTable = ({ userList, isLoading }) => {
 
   return (
     <div>
-      {/* {showModal && <PointChangeModal name={targetUser} point={targetPoint} />} */}
-      <Modal
-        centered
-        withCloseButton={false}
-        opened={showModal}
-        onClose={() => setShowModal(false)}
-      >
-        <div className="flex items-center flex-col">
-          <p className="font-bold text-2xl text-cyan-500 mb-6">ポイント変更</p>
-          <p>{targetUser}</p>
-          <div className="mt-6">
-            <input
-              type="number"
-              value={targetPoint}
-              className="border px-2 rounded-md mb-4"
-              disabled
-            ></input>
-            <button
-              onClick={handleInc}
-              className="h-full w-8 bg-gray-300 text-2xl rounded-lg inline-block mx-2"
-            >
-              +
-            </button>
-            <button
-              onClick={handleDec}
-              className="h-full w-8 bg-gray-300 text-2xl rounded-lg inline-block"
-            >
-              -
-            </button>
-          </div>
-          <div className="flex justify-center w-full">
-            <Button
-              variant="outline"
-              className="w-1/3 mr-4 text-cyan-500 border-cyan-500"
-              onClick={() => setShowModal(false)}
-            >
-              キャンセル
-            </Button>
-            <Button
-              className="w-1/3 bg-cyan-500 hover:bg-cyan-400"
-              onClick={handlePoint}
-            >
-              確定
-            </Button>
-          </div>
-        </div>
-      </Modal>
+      <PointChangeModal
+        userList={userList}
+        setUserList={setUserList}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        targetUser={targetUser}
+        setTargetUser={setTargetUser}
+      />
       <div className="relative">
         <LoadingOverlay visible={isLoading} />
         <div className="text-slate-500">ユーザ数: {userList.length}</div>

@@ -41,7 +41,11 @@ export default function Home() {
             顧客一覧
           </h1>
         </div>
-        <CustomerTable userList={userList} isLoading={isLoading} />
+        <CustomerTable
+          userList={userList}
+          setUserList={setUserList}
+          isLoading={isLoading}
+        />
       </div>
     </Layout>
   );
