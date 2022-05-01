@@ -1,6 +1,11 @@
+import { useState } from "react";
+import { AppShell, Navbar, useMantineTheme } from "@mantine/core";
 import { Header } from "./Header";
+import { NavMenu } from "src/components/NavMenu";
 
 export const Layout = ({ children }) => {
+  const theme = useMantineTheme();
+  const [opened, setOpened] = useState(false);
   const logout = (event) => {
     event.preventDefault();
     localStorage.removeItem("access");
@@ -8,16 +13,22 @@ export const Layout = ({ children }) => {
   };
 
   return (
-    <div>
-      <Header>
-        <button
-          onClick={logout}
-          className="bg-green-700 text-white p-2 duration-300 rounded-md hover:bg-green-600 w-28 text-md"
+    <AppShell
+      navbarOffsetBreakpoint="sm"
+      fixed
+      navbar={
+        <Navbar
+          p="md"
+          hiddenBreakpoint="sm"
+          hidden={!opened}
+          width={{ sm: 150, lg: 150 }}
         >
-          ログアウト
-        </button>
-      </Header>
+          <NavMenu />
+        </Navbar>
+      }
+      header={<Header opened={opened} setOpened={setOpened} />}
+    >
       {children}
-    </div>
+    </AppShell>
   );
 };
