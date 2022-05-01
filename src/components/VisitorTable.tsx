@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Table } from "@mantine/core";
-import { requestHttpGet, requestHttpPatch } from "src/utils/requestBase";
+import { Table, LoadingOverlay } from "@mantine/core";
+import { requestHttpPatch } from "src/utils/requestBase";
+import dayjs from "dayjs";
 
 type Visitor = {
+  id: string;
   email: string;
   family_name: string;
   first_name: string;
@@ -13,7 +15,7 @@ type Visitor = {
   previous_visit: string;
 };
 
-export const TodayTable = ({ visitorList, type }) => {
+export const VisitorTable = ({ visitorList, isLoading, type }) => {
   const [users, setUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [targetEmail, setTargetEmail] = useState("");
@@ -21,25 +23,6 @@ export const TodayTable = ({ visitorList, type }) => {
   const [targetUser, setTargetUser] = useState("");
   const [targetPoint, setTargetPoint] = useState(0);
   const [beforePoint, setBeforePoint] = useState(0);
-
-  useEffect(() => {
-    const getUsers = async () => {
-      const res = await requestHttpGet("/owner/users/"); // .then(res => setUsers(res.data.sort((a, b) => a.last_visit > b.last_visit ? 1 : -1)))
-      const todayUser = res.data.filter((value) => {
-        return (
-          new Date(value.last_visit).getFullYear() ==
-            new Date().getFullYear() &&
-          new Date(value.last_visit).getMonth() == new Date().getMonth() &&
-          new Date(value.last_visit).getDate() == new Date().getDate()
-        );
-      });
-      setUsers(
-        todayUser.sort((a, b) => (a.last_visit > b.last_visit ? 1 : -1))
-      );
-    };
-
-    getUsers();
-  }, [showModal]);
 
   const handleModal = (e) => {
     // ポイント編集モーダル表示
@@ -130,7 +113,9 @@ export const TodayTable = ({ visitorList, type }) => {
   };
 
   const tableItem = visitorList.map((item: Visitor) => {
+    console.log(item);
     const {
+      id,
       email,
       family_name,
       first_name,
@@ -138,39 +123,27 @@ export const TodayTable = ({ visitorList, type }) => {
       visited_date,
       first_visit,
       last_visit,
+      previous_visit,
     } = item;
-    console.log(typeof visited_date);
-    console.log(typeof first_visit);
     return (
-      <tr key={email}>
-        <td>
-          {family_name} {first_name}
-        </td>
+      <tr key={id}>
+        <td>{`${family_name} ${first_name}`}</td>
         <td>{email}</td>
-        <td className="font-light border px-4 py-2 text-right">
-          {point}
+        <td className="text-right">
+          {point ? point : 0}
           <button className="ml-4" value={email} onClick={handleModal}>
             <img src="/pencil.svg" width={20} height={20} />
           </button>
         </td>
-        <td>
-          {visited_date &&
-            `${new Date(visited_date).getHours()}：${changeTwoDigit(
-              visited_date
-            )}`}
-        </td>
-        <td>
-          {first_visit &&
-            `${new Date(first_visit).getFullYear()}-${
-              new Date(first_visit).getMonth() + 1
-            }-${new Date(first_visit).getDate()}`}
-        </td>
-        <td>
-          {last_visit &&
-            `${new Date(last_visit).getFullYear()}-${
-              new Date(last_visit).getMonth() + 1
-            }-${new Date(last_visit).getDate()}`}
-        </td>
+        <td>{visited_date ? dayjs(visited_date).format("HH:mm") : "-"}</td>
+        <td>{first_visit ? dayjs(first_visit).format("YYYY/MM/DD") : "-"}</td>
+        {type === "today" ? (
+          <td>
+            {previous_visit ? dayjs(previous_visit).format("YYYY/MM/DD") : "-"}
+          </td>
+        ) : (
+          <td>{last_visit ? dayjs(last_visit).format("YYYY/MM/DD") : "-"}</td>
+        )}
       </tr>
     );
   });
@@ -178,24 +151,27 @@ export const TodayTable = ({ visitorList, type }) => {
   return (
     <div>
       {showModal && <PointChangeModal name={targetUser} point={targetPoint} />}
-      <Table highlightOnHover>
-        <thead>
-          <tr>
-            <th className="px-4 py-2">顧客名</th>
-            <th className="px-4 py-2">メールアドレス</th>
-            <th className="px-8 py-2">保有ポイント</th>
-            <th className="px-4 py-2">来店時間</th>
-            <th className="px-r py-2">初回来店日</th>
-            <th className="px-r py-2">
-              {type === "today" ? "前回来店日" : "最終来店日"}
-            </th>
-          </tr>
-        </thead>
-        <tbody>{tableItem}</tbody>
-      </Table>
-      {!tableItem.length && (
-        <div className="mt-4 text-center mx-auto">データなし</div>
-      )}
+      <div className="relative">
+        <LoadingOverlay visible={isLoading} />
+        <Table highlightOnHover captionSide="bottom">
+          {!isLoading && !tableItem.length && (
+            <caption>来客はありません</caption>
+          )}
+          <thead>
+            <tr>
+              <th className="px-4 py-2">顧客名</th>
+              <th className="px-4 py-2">メールアドレス</th>
+              <th className="px-8 py-2">保有ポイント</th>
+              <th className="px-4 py-2">来店時間</th>
+              <th className="px-r py-2">初回来店日</th>
+              <th className="px-r py-2">
+                {type === "today" ? "前回来店日" : "最終来店日"}
+              </th>
+            </tr>
+          </thead>
+          <tbody>{tableItem}</tbody>
+        </Table>
+      </div>
     </div>
   );
 };

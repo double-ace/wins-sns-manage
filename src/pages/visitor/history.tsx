@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { HistoryTable } from "src/components/HistoryTable";
+import { VisitorTable } from "src/components/VisitorTable";
 import { Layout } from "src/components/Layout";
-import Link from "next/link";
 import { DatePicker } from "@mantine/dates";
 import { requestHttpGet } from "src/utils/requestBase";
 import dayjs from "dayjs";
@@ -20,26 +19,27 @@ type Visitor = {
 
 export default function History() {
   const [date, setDate] = useState(new Date());
+  const [isLoading, setIsLoading] = useState(false);
   const [visitorList, setVisitorList] = useState<Visitor[]>([]);
   useEffect(() => {
-    if (!localStorage.getItem("access")) {
-      window.location.href = "/signin";
-    }
-  });
+    changeDate(date);
+  }, []);
 
-  const changeDate = async (date: Date): Promise<void> => {
+  const changeDate = async (selDate: Date): Promise<void> => {
+    setIsLoading(true);
+    setDate(selDate);
     const res = await requestHttpGet(
-      `/owner/visitor-history/?date=${dayjs(date).format("YYYY-MM-DD")}`
+      `/owner/visitor-history/?date=${dayjs(selDate).format("YYYY-MM-DD")}`
     );
-    console.log(res);
     setVisitorList([...res.data]);
+    setIsLoading(false);
   };
 
   return (
     <Layout>
-      <div className="h-96 p-8">
-        <div className="border-b w-full pb-2 mb-8 flex row items-center">
-          <h1 className="inline-block font-bold text-4xl text-blue-500 tracking-widest mr-8">
+      <div className="pt-2">
+        <div className="border-b w-full pb-2 mb-4 flex row items-center">
+          <h1 className="inline-block text-2xl font-bold text-cyan-600 tracking-widest">
             過去来店顧客
           </h1>
           <DatePicker
@@ -52,13 +52,12 @@ export default function History() {
             required
             className="mx-2"
           />
-          <Link href="/">
-            <a className="bg-indigo-700 text-white text-center p-2 duration-300 rounded-md hover:bg-indigo-600 w-28 text-md">
-              顧客一覧表
-            </a>
-          </Link>
         </div>
-        <HistoryTable visitorList={visitorList} />
+        <VisitorTable
+          visitorList={visitorList}
+          isLoading={isLoading}
+          type="history"
+        />
       </div>
     </Layout>
   );
