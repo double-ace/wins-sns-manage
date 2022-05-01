@@ -11,6 +11,12 @@ export const Header = ({ opened, setOpened }) => {
   const theme = useMantineTheme();
   const [openQrReader, setOpenQrReader] = useState(false);
 
+  const logout = (event) => {
+    event.preventDefault();
+    localStorage.removeItem("access");
+    window.location.href = "/signin";
+  };
+
   const QrReader = dynamic(() => import("../components/QrRead"), {
     ssr: false,
   });
@@ -46,7 +52,7 @@ export const Header = ({ opened, setOpened }) => {
           >
             QR読取
           </Button>
-          <Button variant="outline" color="red" className="">
+          <Button variant="outline" color="red" onClick={logout}>
             ログアウト
           </Button>
         </div>

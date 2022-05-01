@@ -1,16 +1,10 @@
 import { useState } from "react";
-import { AppShell, Navbar, useMantineTheme } from "@mantine/core";
-import { Header } from "./Header";
+import { AppShell, Navbar } from "@mantine/core";
+import { Header } from "src/components/Header";
 import { NavMenu } from "src/components/NavMenu";
 
 export const Layout = ({ children }) => {
-  const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-  const logout = (event) => {
-    event.preventDefault();
-    localStorage.removeItem("access");
-    window.location.href = "/";
-  };
 
   return (
     <AppShell
