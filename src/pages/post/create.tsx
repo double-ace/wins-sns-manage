@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@mantine/core";
 import { Layout } from "../../components/Layout";
 import toast, { Toaster } from "react-hot-toast";
 import { requestHttpPost } from "src/utils/requestBase";
+import { ConfirmModal } from "src/components/ConfirmModal";
 
 const POST_MESSAGE = {
   confirm: "投稿しますか？",
@@ -17,10 +18,9 @@ const initPost = {
 
 export default function Home() {
   const [post, setPost] = useState({ ...initPost });
-  const [isPosting, setIsPosting] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handlePost = async () => {
-    setIsPosting(true);
     const param = {
       title: post.title,
       content: post.content,
@@ -34,11 +34,16 @@ export default function Home() {
     } else {
       toast.error(POST_MESSAGE.error);
     }
-    setIsPosting(false);
   };
 
   return (
     <Layout>
+      <ConfirmModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        msg={POST_MESSAGE.confirm}
+        confirmFunc={handlePost}
+      />
       <div className="pt-2">
         <Toaster />
         <div className="border-b w-full pb-2 mb-4">
@@ -72,9 +77,8 @@ export default function Home() {
           <Button
             size="sm"
             radius="xl"
-            loading={isPosting}
             className="px-8 bg-cyan-600 hover:bg-cyan-500"
-            onClick={handlePost}
+            onClick={() => setShowModal(true)}
           >
             投稿
           </Button>
