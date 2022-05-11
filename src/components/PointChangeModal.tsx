@@ -1,4 +1,5 @@
 import { Modal, Button } from "@mantine/core";
+import { PlusSmIcon, MinusSmIcon } from "@heroicons/react/outline";
 import { requestHttpPatch } from "src/utils/requestBase";
 
 export const PointChangeModal = ({
@@ -56,21 +57,22 @@ export const PointChangeModal = ({
           ></input>
           <button
             onClick={(e) => handleIncDec(e, "inc")}
-            className="h-full w-8 bg-gray-300 text-2xl rounded-lg inline-block mx-2"
+            className="p-2 bg-gray-300 text-2xl rounded-lg inline-block mx-2"
           >
-            +
+            <PlusSmIcon className="h-5 w-5" />
           </button>
           <button
             onClick={(e) => handleIncDec(e, "dec")}
-            className="h-full w-8 bg-gray-300 text-2xl rounded-lg inline-block"
+            className="p-2 bg-gray-300 text-2xl rounded-lg inline-block"
           >
-            -
+            <MinusSmIcon className="h-5 w-5" />
           </button>
         </div>
         <div className="flex justify-center w-full">
           <Button
             variant="outline"
-            className="w-1/3 mr-4 text-cyan-500 border-cyan-500"
+            color="pink"
+            className="w-1/3 mr-4"
             onClick={() => setShowModal(false)}
           >
             キャンセル
