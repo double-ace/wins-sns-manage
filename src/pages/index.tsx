@@ -14,15 +14,8 @@ export default function Home() {
   }, []);
 
   const getUsers = async () => {
-    try {
-      const res = await requestHttpGet("/owner/users/");
-      setUserList(res.data);
-    } catch {
-      if (localStorage.getItem("access")) {
-        localStorage.removeItem("access");
-      }
-      window.location.href = "/signin";
-    }
+    const res = await requestHttpGet("/owner/users/");
+    res.result && setUserList(res.data);
     setIsLoading(false);
   };
 
