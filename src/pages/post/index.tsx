@@ -35,10 +35,10 @@ export default function Home() {
           <p className="text-md text-slate-600">{content}</p>
           <div>
             <p className="text-xs text-slate-500">
-              {`作成日 ${dayjs(created_at).format("YYYY/MM/DD hh:mm:ss")}`}
+              {`作成日: ${dayjs(created_at).format("YYYY/MM/DD hh:mm:ss")}`}
             </p>
             <p className="text-xs text-slate-500">
-              {`更新日 ${dayjs(updated_at).format("YYYY/MM/DD hh:mm:ss")}`}
+              {`更新日: ${dayjs(updated_at).format("YYYY/MM/DD hh:mm:ss")}`}
             </p>
           </div>
         </a>
