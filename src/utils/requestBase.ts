@@ -29,7 +29,7 @@ export const requestHttpGet = async (
     queryPath = queryList.join("&");
   }
 
-  const headers = await createHeader();
+  const headers = createHeader();
   try {
     const res = await axios.get(baseUrl + endpoint, headers);
     ret.result = true;
@@ -41,7 +41,7 @@ export const requestHttpGet = async (
       try {
         await postRefresh(baseUrl);
         try {
-          const retakeHeaders = await createHeader();
+          const retakeHeaders = createHeader();
           const res = await axios.get(baseUrl + endpoint, retakeHeaders);
           ret.result = true;
           ret.data = res.data;
@@ -51,7 +51,7 @@ export const requestHttpGet = async (
       } catch {
         // リフレッシュトークンが期限切れ->ログイン画面
         delToken();
-        ret.notLogin = true;
+        location.href = "/signin";
       }
     }
   }
@@ -70,7 +70,7 @@ export const requestHttpPost = async (
   };
   console.log(requiredHeader);
 
-  const headers = requiredHeader ? await createHeader() : null;
+  const headers = requiredHeader ? createHeader() : null;
 
   try {
     const res = headers
@@ -84,7 +84,7 @@ export const requestHttpPost = async (
       try {
         await postRefresh(baseUrl);
         try {
-          const retakeHeaders = requiredHeader ? await createHeader() : null;
+          const retakeHeaders = requiredHeader ? createHeader() : null;
           const res = retakeHeaders
             ? await axios.post(baseUrl + endpoint, param, retakeHeaders)
             : await axios.post(baseUrl + endpoint, param);
@@ -96,7 +96,7 @@ export const requestHttpPost = async (
       } catch {
         // リフレッシュトークンが期限切れ->ログイン画面
         delToken();
-        ret.notLogin = true;
+        location.href = "/signin";
       }
     }
   }
@@ -113,7 +113,7 @@ export const requestHttpPatch = async (
     data: "",
   };
 
-  const headers = await createHeader();
+  const headers = createHeader();
 
   try {
     const res = await axios.patch(baseUrl + endpoint, param, headers);
@@ -125,7 +125,7 @@ export const requestHttpPatch = async (
       try {
         await postRefresh(baseUrl);
         try {
-          const retakeHeaders = await createHeader();
+          const retakeHeaders = createHeader();
           const res = await axios.patch(
             baseUrl + endpoint,
             param,
@@ -139,7 +139,45 @@ export const requestHttpPatch = async (
       } catch {
         // リフレッシュトークンが期限切れ->ログイン画面
         delToken();
-        ret.notLogin = true;
+        location.href = "/signin";
+      }
+    }
+  }
+
+  return ret;
+};
+
+export const requestHttpDelete = async (
+  endpoint: string
+): Promise<ResponseData> => {
+  let ret: ResponseData = {
+    result: false,
+    data: "",
+  };
+
+  const headers = createHeader();
+
+  try {
+    const res = await axios.delete(baseUrl + endpoint, headers);
+    ret = { ...ret, result: true, data: res.data };
+  } catch (e: any) {
+    console.log("requestHttpDeleteError========================");
+    // 認証エラーの場合はトークンを取り直し再リクエスト
+    if (e.response.status === 401) {
+      try {
+        await postRefresh(baseUrl);
+        try {
+          const retakeHeaders = createHeader();
+          const res = await axios.delete(baseUrl + endpoint, retakeHeaders);
+          ret.result = true;
+          ret.data = res.data;
+        } catch {
+          // 正しいトークンでのリクエストエラー
+        }
+      } catch {
+        // リフレッシュトークンが期限切れ->ログイン画面
+        delToken();
+        location.href = "/signin";
       }
     }
   }

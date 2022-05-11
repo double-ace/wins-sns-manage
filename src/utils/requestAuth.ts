@@ -7,7 +7,6 @@ type AuthParams = {
 };
 
 export const authLogin = async (params: AuthParams): Promise<any> => {
-  // let ret = false;
   const ret: { result: boolean; status: number | undefined } = {
     result: false,
     status: 0,
@@ -19,7 +18,6 @@ export const authLogin = async (params: AuthParams): Promise<any> => {
       localStorage.setItem("refresh", res.data.refresh);
       ret.result = true;
       ret.status = res.status;
-      console.log("ret: ", ret);
     }
   } catch (e) {
     console.log("authLoginError=========");
@@ -35,28 +33,6 @@ export const postRefresh = async (baseUrl: string) => {
     await axios.post(baseUrl + "/auth/jwt/refresh/", { refresh });
   localStorage.setItem("access", data.access);
   localStorage.setItem("refresh", data.refresh);
-};
-
-export const createAccount = async (params: AuthParams): Promise<boolean> => {
-  let ret = false;
-  try {
-    const createRes = await requestHttpPost("/user/create/", params, false);
-    // if (createRes.status === 201) {
-    if (true) {
-      const tokenRes = await requestHttpPost(
-        "/auth/jwt/create/",
-        params,
-        false
-      );
-      localStorage.setItem("access", tokenRes.data.access);
-      localStorage.setItem("refresh", tokenRes.data.refresh);
-      ret = true;
-    }
-  } catch (e) {
-    alert(e);
-  }
-
-  return ret;
 };
 
 export const useRefreshToken = async () => {
