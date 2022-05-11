@@ -25,12 +25,11 @@ export default function Home() {
       title: post.title,
       content: post.content,
     };
-    console.log(param);
-    console.log(localStorage.getItem("access"));
     const res = await requestHttpPost("/owner/posts/", param);
     if (res.result) {
       setPost(initPost);
       toast.success(POST_MESSAGE.success);
+      setShowModal(false);
     } else {
       toast.error(POST_MESSAGE.error);
     }
@@ -53,7 +52,7 @@ export default function Home() {
         </div>
         <div className="mx-auto mt-8 px-4 max-w-6xl">
           <div className="mb-6">
-            <h2 className="mb-2">タイトル</h2>
+            <h2 className="mb-2 text-slate-600">タイトル</h2>
             <input
               type="text"
               className="w-3/5 p-2 border rounded-md"
@@ -64,7 +63,7 @@ export default function Home() {
             />
           </div>
           <div className="mb-4">
-            <h2 className="mb-2">内容</h2>
+            <h2 className="mb-2 text-slate-600">内容</h2>
             <textarea
               className="w-full p-2 border rounded-md"
               value={post.content}
