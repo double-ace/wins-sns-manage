@@ -18,14 +18,14 @@ export const NavMenu = () => {
           過去来店顧客
         </a>
       </Link>
-      <Link href="/post/create">
+      <Link href="/post">
         <a className="p-2 text-slate-700 rounded-sm duration-300 hover:bg-slate-100">
-          投稿作成
+          投稿一覧
         </a>
       </Link>
       <Link href="/chat">
         <a className="p-2 text-slate-700 rounded-sm hover:bg-slate-100">
-          チャット
+          チャット一覧
         </a>
       </Link>
     </div>
