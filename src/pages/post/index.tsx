@@ -49,7 +49,6 @@ export default function Home() {
   return (
     <Layout>
       <div className="pt-2">
-        <Toaster />
         <div className="border-b w-full pb-2 mb-4">
           <h1 className="inline-block text-2xl font-bold text-cyan-600 tracking-widest">
             投稿一覧
