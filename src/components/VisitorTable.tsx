@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Table, LoadingOverlay } from "@mantine/core";
+import { PencilAltIcon } from "@heroicons/react/outline";
 import { PointChangeModal } from "src/components/PointChangeModal";
 import dayjs from "dayjs";
 
@@ -55,11 +56,11 @@ export const VisitorTable = ({
         <td className="text-right">
           {point ? point : 0}
           <button
-            className="ml-4"
+            className="ml-1"
             value={email}
             onClick={(e) => handleModal(e, item)}
           >
-            <img src="/pencil.svg" width={20} height={20} />
+            <PencilAltIcon className="h-4 w-4 text-amber-600" />
           </button>
         </td>
         <td>{visited_date ? dayjs(visited_date).format("HH:mm") : "-"}</td>
