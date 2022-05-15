@@ -104,12 +104,12 @@ const PostId = () => {
           <div className="mb-6">
             <p className="text-sm text-slate-500">
               {`作成日: ${dayjs(post.created_at).format(
-                "YYYY/MM/DD hh:mm:ss"
+                "YYYY/MM/DD HH:mm:ss"
               )}`}
             </p>
             <p className="text-sm text-slate-500">
               {`更新日: ${dayjs(post.updated_at).format(
-                "YYYY/MM/DD hh:mm:ss"
+                "YYYY/MM/DD HH:mm:ss"
               )}`}
             </p>
           </div>
