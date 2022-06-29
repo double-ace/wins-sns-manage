@@ -1,10 +1,26 @@
+import { useState, useEffect, SetStateAction } from "react";
 import QrReader from "react-qr-reader";
 import { requestHttpPatch } from "src/utils/requestBase";
 
 const QrRead = ({ isOpened, setIsOpened }) => {
-  const onScan = async (data: String) => {
+  const [userId, setuserId] = useState("");
+
+  useEffect(() => {
+    callAPI();
+  }, [userId]);
+
+  const callAPI = async () => {
+    if (userId) {
+      await requestHttpPatch(`/owner/visit/${userId}/`, {});
+    }
+  };
+
+  const onScan = async (data: string) => {
     if (data) {
-      await requestHttpPatch(`/owner/visit/${data}/`, {});
+      if (data !== userId) {
+        setuserId(data);
+      }
+      console.log("read!!!!!!");
       setIsOpened(!isOpened);
     }
   };
