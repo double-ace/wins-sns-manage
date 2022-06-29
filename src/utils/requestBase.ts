@@ -1,7 +1,7 @@
 import axios from "axios";
 import { postRefresh, delToken } from "./requestAuth";
 
-const baseUrl = process.env.BASE_URL || "http://192.168.11.3:8000/api/v1";
+const baseUrl = process.env.BASE_URL || "http://192.168.11.2:8000/api/v1";
 
 export type ResponseData = {
   result: boolean;
@@ -37,22 +37,26 @@ export const requestHttpGet = async (
   } catch (e: any) {
     console.log("requestHttpGetError========================");
     // 認証エラーの場合はトークンを取り直し再リクエスト
-    if (e.response.status === 401) {
-      try {
-        await postRefresh(baseUrl);
+    if (e.response) {
+      if (e.response.status === 401) {
         try {
-          const retakeHeaders = createHeader();
-          const res = await axios.get(baseUrl + endpoint, retakeHeaders);
-          ret.result = true;
-          ret.data = res.data;
+          await postRefresh(baseUrl);
+          try {
+            const retakeHeaders = createHeader();
+            const res = await axios.get(baseUrl + endpoint, retakeHeaders);
+            ret.result = true;
+            ret.data = res.data;
+          } catch {
+            // 正しいトークンでのリクエストエラー
+          }
         } catch {
-          // 正しいトークンでのリクエストエラー
+          // リフレッシュトークンが期限切れ->ログイン画面
+          delToken();
+          location.href = "/signin";
         }
-      } catch {
-        // リフレッシュトークンが期限切れ->ログイン画面
-        delToken();
-        location.href = "/signin";
       }
+    } else {
+      console.log("server error");
     }
   }
 
@@ -80,24 +84,28 @@ export const requestHttpPost = async (
   } catch (e: any) {
     console.log("requestHttpPostError========================");
     // 認証エラーの場合はトークンを取り直し再リクエスト
-    if (e.response.status === 401) {
-      try {
-        await postRefresh(baseUrl);
+    if (e.response) {
+      if (e.response.status === 401) {
         try {
-          const retakeHeaders = requiredHeader ? createHeader() : null;
-          const res = retakeHeaders
-            ? await axios.post(baseUrl + endpoint, param, retakeHeaders)
-            : await axios.post(baseUrl + endpoint, param);
-          ret.result = true;
-          ret.data = res.data;
+          await postRefresh(baseUrl);
+          try {
+            const retakeHeaders = requiredHeader ? createHeader() : null;
+            const res = retakeHeaders
+              ? await axios.post(baseUrl + endpoint, param, retakeHeaders)
+              : await axios.post(baseUrl + endpoint, param);
+            ret.result = true;
+            ret.data = res.data;
+          } catch {
+            // 正しいトークンでのリクエストエラー
+          }
         } catch {
-          // 正しいトークンでのリクエストエラー
+          // リフレッシュトークンが期限切れ->ログイン画面
+          delToken();
+          location.href = "/signin";
         }
-      } catch {
-        // リフレッシュトークンが期限切れ->ログイン画面
-        delToken();
-        location.href = "/signin";
       }
+    } else {
+      console.log("server error");
     }
   }
 
@@ -121,26 +129,30 @@ export const requestHttpPatch = async (
   } catch (e: any) {
     console.log("requestHttpPatchError========================");
     // 認証エラーの場合はトークンを取り直し再リクエスト
-    if (e.response.status === 401) {
-      try {
-        await postRefresh(baseUrl);
+    if (e.response) {
+      if (e.response.status === 401) {
         try {
-          const retakeHeaders = createHeader();
-          const res = await axios.patch(
-            baseUrl + endpoint,
-            param,
-            retakeHeaders
-          );
-          ret.result = true;
-          ret.data = res.data;
+          await postRefresh(baseUrl);
+          try {
+            const retakeHeaders = createHeader();
+            const res = await axios.patch(
+              baseUrl + endpoint,
+              param,
+              retakeHeaders
+            );
+            ret.result = true;
+            ret.data = res.data;
+          } catch {
+            // 正しいトークンでのリクエストエラー
+          }
         } catch {
-          // 正しいトークンでのリクエストエラー
+          // リフレッシュトークンが期限切れ->ログイン画面
+          delToken();
+          location.href = "/signin";
         }
-      } catch {
-        // リフレッシュトークンが期限切れ->ログイン画面
-        delToken();
-        location.href = "/signin";
       }
+    } else {
+      console.log("server error");
     }
   }
 
@@ -163,22 +175,26 @@ export const requestHttpDelete = async (
   } catch (e: any) {
     console.log("requestHttpDeleteError========================");
     // 認証エラーの場合はトークンを取り直し再リクエスト
-    if (e.response.status === 401) {
-      try {
-        await postRefresh(baseUrl);
+    if (e.response) {
+      if (e.response.status === 401) {
         try {
-          const retakeHeaders = createHeader();
-          const res = await axios.delete(baseUrl + endpoint, retakeHeaders);
-          ret.result = true;
-          ret.data = res.data;
+          await postRefresh(baseUrl);
+          try {
+            const retakeHeaders = createHeader();
+            const res = await axios.delete(baseUrl + endpoint, retakeHeaders);
+            ret.result = true;
+            ret.data = res.data;
+          } catch {
+            // 正しいトークンでのリクエストエラー
+          }
         } catch {
-          // 正しいトークンでのリクエストエラー
+          // リフレッシュトークンが期限切れ->ログイン画面
+          delToken();
+          location.href = "/signin";
         }
-      } catch {
-        // リフレッシュトークンが期限切れ->ログイン画面
-        delToken();
-        location.href = "/signin";
       }
+    } else {
+      console.log("server error");
     }
   }
 
