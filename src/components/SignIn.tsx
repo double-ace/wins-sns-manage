@@ -80,7 +80,7 @@ export const SignIn = () => {
             radius="xl"
             size="lg"
             onClick={login}
-            className="w-full mt-6 bg-cyan-700 hover:bg-cyan-600 duration-300"
+            className="w-full mt-6 bg-cyan-600 hover:bg-cyan-500 duration-300"
           >
             ログイン
           </Button>
