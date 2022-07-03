@@ -65,7 +65,7 @@ const ChatRoomList = () => {
       <div className="pt-2">
         <div className="border-b w-full pb-2 mb-4">
           <h1 className="inline-block text-2xl font-bold text-cyan-600 tracking-widest">
-            投稿一覧
+            チャット一覧
           </h1>
         </div>
         <div className="mx-auto md:mx-16 mt-8 px-4 max-w-4xl">{chats}</div>
