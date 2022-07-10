@@ -79,7 +79,7 @@ export const CustomerTable = ({ userList, setUserList, isLoading }) => {
       />
       <div className="relative">
         <LoadingOverlay visible={isLoading} />
-        <div className="text-slate-500">ユーザ数: {userList.length}</div>
+        <div className="text-slate-500">顧客数: {userList.length}</div>
         <Table
           highlightOnHover
           // className="block overflow-x-scroll whitespace-nowrap w-full"
