@@ -19,25 +19,25 @@ export const CustomerTable = ({ userList, setUserList, isLoading }) => {
     const {
       id,
       email,
-      first_name,
-      family_name,
-      birth_date,
-      address_prefecture,
-      address_city,
-      hear_from,
+      firstName,
+      familyName,
+      birthDate,
+      addressPrefecture,
+      addressCity,
+      hearFrom,
       introduced,
-      phone_number,
-      hope_rate,
+      phoneNumber,
+      hopeRate,
       point,
-      visit_count,
-      continuous_visit_count,
-      first_visit,
-      previous_visit,
-      last_visit,
+      visitCount,
+      continuousVisitCount,
+      firstVisit,
+      previousVisit,
+      lastVisit,
     } = item;
     return (
       <tr key={id}>
-        <td>{`${family_name} ${first_name}`}</td>
+        <td>{`${familyName} ${firstName}`}</td>
         <td>{email}</td>
         <td className="text-right">
           {point || 0}
@@ -49,20 +49,20 @@ export const CustomerTable = ({ userList, setUserList, isLoading }) => {
             <PencilAltIcon className="h-4 w-4 text-amber-600" />
           </button>
         </td>
-        <td>{first_visit ? dayjs(first_visit).format("YYYY/MM/DD") : "-"}</td>
+        <td>{firstVisit ? dayjs(firstVisit).format("YYYY/MM/DD") : "-"}</td>
         <td>
-          {previous_visit ? dayjs(previous_visit).format("YYYY/MM/DD") : "-"}
+          {previousVisit ? dayjs(previousVisit).format("YYYY/MM/DD") : "-"}
         </td>
-        <td>{last_visit ? dayjs(last_visit).format("YYYY/MM/DD") : "-"}</td>
-        <td className=" text-right">{visit_count || 0}</td>
-        <td className=" text-right">{continuous_visit_count || 0}</td>
-        <td>{phone_number || "-"}</td>
-        <td>{birth_date ? dayjs(birth_date).format("YYYY/MM/DD") : "-"}</td>
-        <td>{address_prefecture || "-"}</td>
-        <td>{address_city || "-"}</td>
-        <td>{hear_from || "-"}</td>
+        <td>{lastVisit ? dayjs(lastVisit).format("YYYY/MM/DD") : "-"}</td>
+        <td className=" text-right">{visitCount || 0}</td>
+        <td className=" text-right">{continuousVisitCount || 0}</td>
+        <td>{phoneNumber || "-"}</td>
+        <td>{birthDate ? dayjs(birthDate).format("YYYY/MM/DD") : "-"}</td>
+        <td>{addressPrefecture || "-"}</td>
+        <td>{addressCity || "-"}</td>
+        <td>{hearFrom || "-"}</td>
         <td>{introduced || "-"}</td>
-        <td>{hope_rate || "-"}</td>
+        <td>{hopeRate || "-"}</td>
       </tr>
     );
   });

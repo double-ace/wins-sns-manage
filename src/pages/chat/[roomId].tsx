@@ -10,15 +10,15 @@ type Message = {
   content: string;
   sender: {
     id: string;
-    profile_id: string;
-    family_name: string;
-    first_name: string;
+    profileId: string;
+    familyName: string;
+    firstName: string;
     nickname: string;
-    profile_image: string;
+    profileImage: string;
   };
   me: string;
   room: string;
-  created_at: string;
+  createdAt: string;
 };
 
 const ChatRoom = () => {
@@ -34,13 +34,13 @@ const ChatRoom = () => {
 
   const getChat = async (reqUser: boolean) => {
     const { roomId, profileId } = router.query;
-    const msgRes = await requestHttpGet(`/chat/messages/?room_id=${roomId}`);
+    const msgRes = await requestHttpGet(`/chat/messages/?roomId=${roomId}`);
     msgRes.result && setMsg([...msgRes.data]);
     if (reqUser) {
       const nameRes = await requestHttpGet(`/user/name/${profileId}/`);
       if (nameRes.result) {
-        const { family_name, first_name, nickname } = nameRes.data;
-        setUsername(`${family_name} ${first_name} (${nickname})`);
+        const { familyName, firstName, nickname } = nameRes.data;
+        setUsername(`${familyName} ${firstName} (${nickname})`);
       }
     }
   };
@@ -60,25 +60,25 @@ const ChatRoom = () => {
   };
 
   const messages = msg.map((item: Message) => {
-    const { id, content, sender, me, created_at } = item;
+    const { id, content, sender, me, createdAt } = item;
     return sender.id === me ? (
       <div className="mb-4 flex flex-col items-end" key={id}>
         <div className="mr-2 flex flex-col items-end">
           <p className="bg-cyan-100 rounded-xl max-w-3xl p-2">{content}</p>
           <div>
             <p className="text-sm text-slate-400">
-              {dayjs(created_at).format("YYYY/MM/DD HH:mm:ss")}
+              {dayjs(createdAt).format("YYYY/MM/DD HH:mm:ss")}
             </p>
           </div>
         </div>
       </div>
     ) : (
       <div className="flex mb-4" key={id}>
-        <Avatar radius="xl" color="cyan" src={sender.profile_image} />
+        <Avatar radius="xl" color="cyan" src={sender.profileImage} />
         <div className="ml-2 flex flex-col items-start">
           <p className="bg-slate-100 rounded-xl max-w-3xl p-2">{content}</p>
           <p className="text-sm text-slate-400">
-            {dayjs(created_at).format("YYYY/MM/DD HH:mm:ss")}
+            {dayjs(createdAt).format("YYYY/MM/DD HH:mm:ss")}
           </p>
         </div>
       </div>

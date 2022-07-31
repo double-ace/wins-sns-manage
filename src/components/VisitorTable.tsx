@@ -7,14 +7,14 @@ import dayjs from "dayjs";
 type Visitor = {
   id: string;
   email: string;
-  family_name: string;
-  first_name: string;
-  info_id: string;
+  familyName: string;
+  firstName: string;
+  infoId: string;
   point: number;
-  visited_date: string;
-  first_visit: string;
-  last_visit: string;
-  previous_visit: string;
+  visitedDate: string;
+  firstVisit: string;
+  lastVisit: string;
+  previousVisit: string;
 };
 
 export const VisitorTable = ({
@@ -41,17 +41,17 @@ export const VisitorTable = ({
     const {
       id,
       email,
-      family_name,
-      first_name,
+      familyName,
+      firstName,
       point,
-      visited_date,
-      first_visit,
-      last_visit,
-      previous_visit,
+      visitedDate,
+      firstVisit,
+      lastVisit,
+      previousVisit,
     } = item;
     return (
       <tr key={id}>
-        <td>{`${family_name} ${first_name}`}</td>
+        <td>{`${familyName} ${firstName}`}</td>
         <td>{email}</td>
         <td className="text-right">
           {point ? point : 0}
@@ -63,14 +63,14 @@ export const VisitorTable = ({
             <PencilAltIcon className="h-4 w-4 text-amber-600" />
           </button>
         </td>
-        <td>{visited_date ? dayjs(visited_date).format("HH:mm") : "-"}</td>
-        <td>{first_visit ? dayjs(first_visit).format("YYYY/MM/DD") : "-"}</td>
+        <td>{visitedDate ? dayjs(visitedDate).format("HH:mm") : "-"}</td>
+        <td>{firstVisit ? dayjs(firstVisit).format("YYYY/MM/DD") : "-"}</td>
         {type === "today" ? (
           <td>
-            {previous_visit ? dayjs(previous_visit).format("YYYY/MM/DD") : "-"}
+            {previousVisit ? dayjs(previousVisit).format("YYYY/MM/DD") : "-"}
           </td>
         ) : (
-          <td>{last_visit ? dayjs(last_visit).format("YYYY/MM/DD") : "-"}</td>
+          <td>{lastVisit ? dayjs(lastVisit).format("YYYY/MM/DD") : "-"}</td>
         )}
       </tr>
     );

@@ -34,8 +34,8 @@ const PostId = () => {
     id: "",
     title: "",
     content: "",
-    created_at: "",
-    updated_at: "",
+    createdAt: "",
+    updatedAt: "",
   });
   const [showModal, setShowModal] = useState(false);
   const [confirmItem, setConfirmItem] = useState<ConfirmItem>({
@@ -103,14 +103,10 @@ const PostId = () => {
         <div className="mx-auto mt-8 px-4 max-w-6xl">
           <div className="mb-6">
             <p className="text-sm text-slate-500">
-              {`作成日: ${dayjs(post.created_at).format(
-                "YYYY/MM/DD HH:mm:ss"
-              )}`}
+              {`作成日: ${dayjs(post.createdAt).format("YYYY/MM/DD HH:mm:ss")}`}
             </p>
             <p className="text-sm text-slate-500">
-              {`更新日: ${dayjs(post.updated_at).format(
-                "YYYY/MM/DD HH:mm:ss"
-              )}`}
+              {`更新日: ${dayjs(post.updatedAt).format("YYYY/MM/DD HH:mm:ss")}`}
             </p>
           </div>
           <div className="mb-6">

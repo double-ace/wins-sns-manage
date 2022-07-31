@@ -6,13 +6,13 @@ import { requestHttpGet } from "src/utils/requestBase";
 
 type Visitor = {
   email: string;
-  family_name: string;
-  first_name: string;
+  familyName: string;
+  firstName: string;
   point: number;
-  visited_date: Date;
-  first_visit: Date;
-  last_visit: Date;
-  previous_visit: Date;
+  visitedDate: Date;
+  firstVisit: Date;
+  lastVisit: Date;
+  previousVisit: Date;
 };
 
 export default function Today() {

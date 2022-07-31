@@ -24,7 +24,7 @@ export const PointChangeModal = ({
   const handlePointChange = async (e) => {
     // ポイント確定
     e.preventDefault();
-    await requestHttpPatch(`/owner/point-change/${targetUser.info_id}/`, {
+    await requestHttpPatch(`/owner/point-change/${targetUser.infoId}/`, {
       email: targetUser.email,
       point: targetUser.point,
     });
@@ -47,7 +47,7 @@ export const PointChangeModal = ({
     >
       <div className="flex items-center flex-col">
         <p className="font-bold text-2xl text-cyan-500 mb-6">ポイント変更</p>
-        <p>{`${targetUser.family_name} ${targetUser.first_name}`}</p>
+        <p>{`${targetUser.familyName} ${targetUser.firstName}`}</p>
         <div className="mt-6">
           <input
             type="number"

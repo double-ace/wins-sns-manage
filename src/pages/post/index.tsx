@@ -9,8 +9,8 @@ type Post = {
   id: string;
   title: string;
   content: string;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export default function Home() {
@@ -27,7 +27,7 @@ export default function Home() {
   };
 
   const posts = postList.map((item: Post) => {
-    const { id, title, content, created_at, updated_at } = item;
+    const { id, title, content, createdAt, updatedAt } = item;
     return (
       <Link href={`/post/${id}`} key={id}>
         <a className="block p-2 border-b hover:bg-slate-100">
@@ -35,10 +35,10 @@ export default function Home() {
           <p className="text-md text-slate-600">{content}</p>
           <div>
             <p className="text-xs text-slate-500">
-              {`作成日: ${dayjs(created_at).format("YYYY/MM/DD HH:mm:ss")}`}
+              {`作成日: ${dayjs(createdAt).format("YYYY/MM/DD HH:mm:ss")}`}
             </p>
             <p className="text-xs text-slate-500">
-              {`更新日: ${dayjs(updated_at).format("YYYY/MM/DD HH:mm:ss")}`}
+              {`更新日: ${dayjs(updatedAt).format("YYYY/MM/DD HH:mm:ss")}`}
             </p>
           </div>
         </a>

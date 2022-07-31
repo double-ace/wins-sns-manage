@@ -10,21 +10,21 @@ type ChatRoom = {
   status: string;
   creator: {
     id: string;
-    profile_id: string;
-    family_name: string;
-    first_name: string;
+    profileId: string;
+    familyName: string;
+    firstName: string;
     nickname: string;
-    profile_image: string;
+    profileImage: string;
   };
   member: string;
-  updated_by: string;
-  updated_at: string;
+  updatedBy: string;
+  updatedAt: string;
   message: {
     id: string;
     content: string;
     sender: string;
     room: string;
-    created_at: string;
+    createdAt: string;
   };
 };
 
@@ -41,17 +41,17 @@ const ChatRoomList = () => {
   };
 
   const chats = roomList.map((item: ChatRoom) => {
-    const { id, status, creator, updated_at, message } = item;
+    const { id, status, creator, updatedAt, message } = item;
     return (
-      <Link href={`/chat/${id}?profileId=${creator.profile_id}`} key={id}>
+      <Link href={`/chat/${id}?profileId=${creator.profileId}`} key={id}>
         <a className="block p-2 border-b hover:bg-slate-100">
           <div className="flex">
-            <Avatar radius="xl" color="cyan" src={creator.profile_image} />
+            <Avatar radius="xl" color="cyan" src={creator.profileImage} />
             <div className="ml-4">
-              <p className="text-lg text-slate-700">{`${creator.family_name} ${creator.first_name} (${creator.nickname})`}</p>
+              <p className="text-lg text-slate-700">{`${creator.familyName} ${creator.firstName} (${creator.nickname})`}</p>
               <p className="text-md text-slate-600">{message.content}</p>
               <p className="text-xs text-slate-500">
-                {dayjs(updated_at).format("YYYY/MM/DD HH:mm:ss")}
+                {dayjs(updatedAt).format("YYYY/MM/DD HH:mm:ss")}
               </p>
             </div>
           </div>
