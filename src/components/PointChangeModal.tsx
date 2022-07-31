@@ -24,8 +24,7 @@ export const PointChangeModal = ({
   const handlePointChange = async (e) => {
     // ポイント確定
     e.preventDefault();
-    await requestHttpPatch(`/owner/point-change/${targetUser.infoId}/`, {
-      email: targetUser.email,
+    await requestHttpPatch(`/owner/point-change/${targetUser.id}/`, {
       point: targetUser.point,
     });
     console.log(userList);
