@@ -10,7 +10,6 @@ type Message = {
   content: string;
   sender: {
     id: string;
-    profileId: string;
     familyName: string;
     firstName: string;
     nickname: string;
@@ -33,11 +32,11 @@ const ChatRoom = () => {
   }, []);
 
   const getChat = async (reqUser: boolean) => {
-    const { roomId, profileId } = router.query;
-    const msgRes = await requestHttpGet(`/chat/messages/?roomId=${roomId}`);
+    const { roomId, userId } = router.query;
+    const msgRes = await requestHttpGet(`/chat/messages/?room_id=${roomId}`);
     msgRes.result && setMsg([...msgRes.data]);
     if (reqUser) {
-      const nameRes = await requestHttpGet(`/user/name/${profileId}/`);
+      const nameRes = await requestHttpGet(`/user/name/${userId}/`);
       if (nameRes.result) {
         const { familyName, firstName, nickname } = nameRes.data;
         setUsername(`${familyName} ${firstName} (${nickname})`);

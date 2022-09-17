@@ -8,15 +8,14 @@ import { requestHttpGet } from "src/utils/requestBase";
 type ChatRoom = {
   id: string;
   status: string;
-  creator: {
+  creator: string;
+  member: {
     id: string;
-    profileId: string;
     familyName: string;
     firstName: string;
     nickname: string;
     profileImage: string;
   };
-  member: string;
   updatedBy: string;
   updatedAt: string;
   message: {
@@ -25,7 +24,7 @@ type ChatRoom = {
     sender: string;
     room: string;
     createdAt: string;
-  };
+  } | null;
 };
 
 const ChatRoomList = () => {
@@ -41,23 +40,26 @@ const ChatRoomList = () => {
   };
 
   const chats = roomList.map((item: ChatRoom) => {
-    const { id, status, creator, updatedAt, message } = item;
-    return (
-      <Link href={`/chat/${id}?profileId=${creator.profileId}`} key={id}>
-        <a className="block p-2 border-b hover:bg-slate-100">
-          <div className="flex">
-            <Avatar radius="xl" color="cyan" src={creator.profileImage} />
-            <div className="ml-4">
-              <p className="text-lg text-slate-700">{`${creator.familyName} ${creator.firstName} (${creator.nickname})`}</p>
-              <p className="text-md text-slate-600">{message.content}</p>
-              <p className="text-xs text-slate-500">
-                {dayjs(updatedAt).format("YYYY/MM/DD HH:mm:ss")}
-              </p>
+    const { id, member, updatedAt, message } = item;
+    console.log(member);
+    if (message) {
+      return (
+        <Link href={`/chat/${id}?userId=${member.id}`} key={id}>
+          <a className="block p-2 border-b hover:bg-slate-100">
+            <div className="flex">
+              <Avatar radius="xl" color="cyan" src={member.profileImage} />
+              <div className="ml-4">
+                <p className="text-lg text-slate-700">{`${member.familyName} ${member.firstName} (${member.nickname})`}</p>
+                <p className="text-md text-slate-600">{message?.content}</p>
+                <p className="text-xs text-slate-500">
+                  {dayjs(updatedAt).format("YYYY/MM/DD HH:mm:ss")}
+                </p>
+              </div>
             </div>
-          </div>
-        </a>
-      </Link>
-    );
+          </a>
+        </Link>
+      );
+    }
   });
 
   return (
